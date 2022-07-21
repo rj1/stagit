@@ -9,7 +9,7 @@ MANPREFIX = ${PREFIX}/man
 DOCPREFIX = ${PREFIX}/share/doc/${NAME}
 
 LIBGIT_INC = -I/usr/local/include
-LIBGIT_LIB = -L/usr/local/lib -lgit2
+LIBGIT_LIB = -L/usr/local/lib -lgit2 -lmd4c-html
 
 # use system flags.
 STAGIT_CFLAGS = ${LIBGIT_INC} ${CFLAGS}
@@ -25,13 +25,13 @@ COMPATSRC = \
 	strlcpy.c
 BIN = \
 	stagit\
-	stagit-index
+	stagit-index\
+	highlight
 MAN1 = \
 	stagit.1\
 	stagit-index.1
 DOC = \
 	LICENSE\
-	README
 HDR = compat.h
 
 COMPATOBJ = \
@@ -53,8 +53,6 @@ dist:
 	rm -rf ${NAME}-${VERSION}
 	mkdir -p ${NAME}-${VERSION}
 	cp -f ${MAN1} ${HDR} ${SRC} ${COMPATSRC} ${DOC} \
-		Makefile favicon.png logo.png style.css \
-		example_create.sh example_post-receive.sh \
 		${NAME}-${VERSION}
 	# make tarball
 	tar -cf - ${NAME}-${VERSION} | \
@@ -69,6 +67,9 @@ stagit: stagit.o ${COMPATOBJ}
 stagit-index: stagit-index.o ${COMPATOBJ}
 	${CC} -o $@ stagit-index.o ${COMPATOBJ} ${STAGIT_LDFLAGS}
 
+highlight:
+	cp highlight.py highlight
+
 clean:
 	rm -f ${BIN} ${OBJ} ${NAME}-${VERSION}.tar.gz
 
@@ -77,33 +78,9 @@ install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ${BIN} ${DESTDIR}${PREFIX}/bin
 	for f in ${BIN}; do chmod 755 ${DESTDIR}${PREFIX}/bin/$$f; done
-	# installing example files.
-	mkdir -p ${DESTDIR}${DOCPREFIX}
-	cp -f style.css\
-		favicon.png\
-		logo.png\
-		example_create.sh\
-		example_post-receive.sh\
-		README\
-		${DESTDIR}${DOCPREFIX}
-	# installing manual pages.
-	mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	cp -f ${MAN1} ${DESTDIR}${MANPREFIX}/man1
-	for m in ${MAN1}; do chmod 644 ${DESTDIR}${MANPREFIX}/man1/$$m; done
 
 uninstall:
 	# removing executable files.
 	for f in ${BIN}; do rm -f ${DESTDIR}${PREFIX}/bin/$$f; done
-	# removing example files.
-	rm -f \
-		${DESTDIR}${DOCPREFIX}/style.css\
-		${DESTDIR}${DOCPREFIX}/favicon.png\
-		${DESTDIR}${DOCPREFIX}/logo.png\
-		${DESTDIR}${DOCPREFIX}/example_create.sh\
-		${DESTDIR}${DOCPREFIX}/example_post-receive.sh\
-		${DESTDIR}${DOCPREFIX}/README
-	-rmdir ${DESTDIR}${DOCPREFIX}
-	# removing manual pages.
-	for m in ${MAN1}; do rm -f ${DESTDIR}${MANPREFIX}/man1/$$m; done
 
 .PHONY: all clean dist install uninstall
