@@ -2,7 +2,7 @@
 
 personal stagit fork 
 
-this version of stagit is meant to be used with my personal website
+this fork of stagit was:
 
-see it in action @ https://rj1.localghost.org/repos
-
+- modified to convert a markdown readme to html
+- created to display repos on [my website](https://rj1.su/repos)
