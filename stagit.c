@@ -521,7 +521,7 @@ writeheader(FILE *fp, const char *title)
     fputs("</title>\n", fp);
     // fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../%sstyle.css\" />\n", relpath);
     fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/style.css\">\n<link rel=\"icon\" href=\"/favicon.svg\">\n", relpath);
-    fputs("</head>\n<body>\n<div class=\"content\">\n<header>\n<div class=\"main\">\n<a href=\"/\">rj1</a>\n</div>"
+    fputs("</head>\n<body>\n<div class=\"content\">\n<header>\n<div class=\"main\">\n<a href=\"/\"><img src=\"/img/rj1.svg\" alt=\"rj1\" width=\"50\"></a>\n</div>"
           "<nav>\n<a href=\"/\">home</a> <a href=\"/notes\">notes</a> <a href=\"/repos\">repos</a>\n<a href=\"/notes/index.xml\">rss</a>\n</nav>\n</header>\n<div id=\"head\">", fp);
 
     fputs("<div class=\"title\"><h1 class=\"title\">", fp);
@@ -551,11 +551,13 @@ writeheader(FILE *fp, const char *title)
                 relpath, contribute);
 }
 
-    void
-writefooter(FILE *fp)
+void writefooter(FILE *fp)
 {
      fputs("<footer>\n<hr>\n<div class=\"meta\">\n"
-          "｢mail: <a href=\"mailto:rj1@riseup.net\">rj1@riseup.net</a>｣ ｢pgp: <a href=\"/gpg.txt\">F0:42:A0:B6:CB:41:FD:A2</a>｣\n"
+          "｢mail: <a href=\"mailto:rj1@riseup.net\">rj1@riseup.net</a>｣ "
+          "｢irc: <a href=\"ircs:\/\/internetrelaychat.net:6697\">rj1@internetrelaychat.net</a>｣ "
+          "｢gh: <a href=\"https://github.com/rj1\">rj1</a>｣ "
+          "｢pgp: <a href=\"/gpg.txt\">F0:42:A0:B6:CB:41:FD:A2</a>｣</div>"
           "</div>\n</footer>\n</div>\n</body>\n</html>\n", fp);
 }
 
